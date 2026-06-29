@@ -4,6 +4,7 @@ import { registerInvoiceHandlers } from './invoices'
 import { registerPaymentHandlers } from './payments'
 import { registerSettingsHandlers } from './settings'
 import { registerBackupHandlers } from './backup'
+import { registerReportHandlers } from './reports'
 
 export function registerAllIpcHandlers(): void {
   registerProductHandlers()
@@ -12,5 +13,7 @@ export function registerAllIpcHandlers(): void {
   registerPaymentHandlers()
   registerSettingsHandlers()
   registerBackupHandlers()
+  registerReportHandlers()
   console.log('[IPC] All handlers registered')
 }
+
