@@ -427,6 +427,7 @@ export function registerInvoiceHandlers(): void {
     const summary = queryOne(
       `SELECT 
          COALESCE(SUM(i.total_amount), 0) as revenue,
+         COALESCE(SUM(i.debt_amount), 0) as debt,
          COUNT(i.id) as invoiceCount,
          COALESCE(SUM(i.total_amount - (
            SELECT COALESCE(SUM(ii.quantity * ii.cost_price_snapshot), 0) 
@@ -456,6 +457,7 @@ export function registerInvoiceHandlers(): void {
     return {
       revenue: summary?.revenue || 0,
       profit: summary?.profit || 0,
+      debt: summary?.debt || 0,
       invoiceCount: summary?.invoiceCount || 0,
       invoices
     }

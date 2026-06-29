@@ -67,6 +67,20 @@ export async function initDatabase(): Promise<void> {
     // Column might already exist, ignore error
   }
 
+  // Migration: backfill cost_price_snapshot for historical invoice items
+  try {
+    const res = sqlDb.run(`
+      UPDATE invoice_items 
+      SET cost_price_snapshot = (
+        SELECT cost_price FROM products WHERE id = invoice_items.product_id
+      )
+      WHERE cost_price_snapshot = 0
+    `)
+    console.log('[DB] Migration: Checked/backfilled cost_price_snapshot')
+  } catch (err) {
+    console.error('[DB] Migration Error: Backfill failed', err)
+  }
+
   // Seed default settings
   seedDefaultSettings(sqlDb)
 

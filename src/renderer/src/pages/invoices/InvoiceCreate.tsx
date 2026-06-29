@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Plus, Trash2, Search, ShoppingCart, PackagePlus } from 'lucide-react'
 import { formatCurrency } from '../../utils/formatters'
 import { useToastStore } from '../../stores/toastStore'
@@ -29,6 +29,7 @@ interface QuickProductForm {
 export default function InvoiceCreate(): JSX.Element {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const addToast = useToastStore((s) => s.addToast)
 
   const [customers, setCustomers] = useState<any[]>([])
@@ -61,6 +62,20 @@ export default function InvoiceCreate(): JSX.Element {
   useEffect(() => {
     loadInvoiceNumber()
   }, [])
+
+  useEffect(() => {
+    const customerIdParam = searchParams.get('customer')
+    if (customerIdParam) {
+      window.api.customers.get(customerIdParam)
+        .then(c => {
+          if (c) {
+            setSelectedCustomerId(c.id)
+            setCustomerSearch(c.name)
+          }
+        })
+        .catch(err => console.error('Failed to load initial customer:', err))
+    }
+  }, [searchParams])
 
   async function loadInvoiceNumber(): Promise<void> {
     const num = await window.api.invoices.nextNumber()

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { DollarSign, FileText, AlertTriangle, Users } from 'lucide-react'
 import { formatCurrency, formatDate } from '../utils/formatters'
+import Modal from '../components/ui/Modal'
 
 interface DashboardStats {
   todayRevenue: number
@@ -18,6 +19,7 @@ interface DashboardStats {
 interface DayDetail {
   revenue: number
   profit: number
+  debt: number
   invoiceCount: number
   invoices: any[]
 }
@@ -256,79 +258,80 @@ export default function Dashboard(): JSX.Element {
       </div>
 
       {/* Day Detail Modal */}
-      {selectedDate && (
-        <div className="modal-overlay" onClick={() => setSelectedDate(null)}>
-          <div className="modal-content" style={{ maxWidth: '800px', width: '90%' }} onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2 className="modal-title">Chi tiết Báo cáo Ngày</h2>
-              <button className="btn btn-icon" onClick={() => setSelectedDate(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-            </div>
-            <div className="modal-body">
-              <div style={{ marginBottom: 'var(--space-4)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-                <label style={{ fontWeight: 'var(--font-weight-medium)' }}>Chọn ngày:</label>
-                <input 
-                  type="date" 
-                  className="input" 
-                  value={selectedDate} 
-                  onChange={(e) => setSelectedDate(e.target.value)} 
-                  style={{ width: 'auto' }}
-                />
-              </div>
-              
-              {loadingDay ? (
-                <div style={{ padding: 'var(--space-4)', textAlign: 'center' }}>Đang tải...</div>
-              ) : (
-                <>
-                  <div className="grid grid-3" style={{ marginBottom: 'var(--space-4)' }}>
-                    <div className="stat-card" style={{ '--stat-color': 'var(--color-accent)' } as any}>
-                      <div className="stat-card-value currency">{formatCurrency(dayDetail?.revenue || 0)}</div>
-                      <div className="stat-card-label">Doanh thu</div>
-                    </div>
-                    <div className="stat-card" style={{ '--stat-color': 'var(--color-success)' } as any}>
-                      <div className="stat-card-value currency">{formatCurrency(dayDetail?.profit || 0)}</div>
-                      <div className="stat-card-label">Lợi nhuận</div>
-                    </div>
-                    <div className="stat-card" style={{ '--stat-color': 'var(--color-primary)' } as any}>
-                      <div className="stat-card-value">{dayDetail?.invoiceCount || 0}</div>
-                      <div className="stat-card-label">Số Hóa đơn</div>
-                    </div>
-                  </div>
-
-                  <div className="table-scroll" style={{ maxHeight: '400px' }}>
-                    <table className="data-table">
-                      <thead style={{ position: 'sticky', top: 0, background: 'var(--color-bg-primary)', zIndex: 1 }}>
-                        <tr>
-                          <th>Mã HĐ</th>
-                          <th>Khách hàng</th>
-                          <th>Tổng tiền</th>
-                          <th>Lợi nhuận</th>
-                          <th>Giờ tạo</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dayDetail?.invoices.map(inv => (
-                          <tr key={inv.id} className="clickable-row" onClick={() => navigate(`/invoices/${inv.id}`)}>
-                            <td style={{ fontWeight: 'var(--font-weight-medium)' }}>{inv.invoiceNumber}</td>
-                            <td>{inv.customerNameSnapshot || t('customers.walkIn')}</td>
-                            <td className="currency">{formatCurrency(inv.totalAmount)}</td>
-                            <td className="currency" style={{ color: 'var(--color-success)' }}>{formatCurrency(inv.profit)}</td>
-                            <td style={{ color: 'var(--color-text-secondary)' }}>{new Date(inv.createdAt).toLocaleTimeString('vi-VN')}</td>
-                          </tr>
-                        ))}
-                        {(!dayDetail?.invoices || dayDetail.invoices.length === 0) && (
-                          <tr><td colSpan={5} className="table-empty">Không có hóa đơn nào</td></tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+      <Modal
+        isOpen={!!selectedDate}
+        onClose={() => setSelectedDate(null)}
+        title="Chi tiết Báo cáo Ngày"
+        size="lg"
+      >
+        <div style={{ marginBottom: 'var(--space-4)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+          <label style={{ fontWeight: 'var(--font-weight-medium)' }}>Chọn ngày:</label>
+          <input 
+            type="date" 
+            className="input" 
+            value={selectedDate || ''} 
+            onChange={(e) => setSelectedDate(e.target.value)} 
+            style={{ width: 'auto' }}
+          />
         </div>
-      )}
+        
+        {loadingDay ? (
+          <div style={{ padding: 'var(--space-4)', textAlign: 'center' }}>Đang tải...</div>
+        ) : (
+          <>
+            <div className="grid grid-4" style={{ marginBottom: 'var(--space-4)' }}>
+              <div className="stat-card" style={{ '--stat-color': 'var(--color-accent)' } as any}>
+                <div className="stat-card-value currency">{formatCurrency(dayDetail?.revenue || 0)}</div>
+                <div className="stat-card-label">Doanh thu</div>
+              </div>
+              <div className="stat-card" style={{ '--stat-color': 'var(--color-success)' } as any}>
+                <div className="stat-card-value currency">{formatCurrency(dayDetail?.profit || 0)}</div>
+                <div className="stat-card-label">Lợi nhuận</div>
+              </div>
+              <div className="stat-card" style={{ '--stat-color': 'var(--color-danger)' } as any}>
+                <div className="stat-card-value currency currency-negative">{formatCurrency(dayDetail?.debt || 0)}</div>
+                <div className="stat-card-label">Nợ mới</div>
+              </div>
+              <div className="stat-card" style={{ '--stat-color': 'var(--color-primary)' } as any}>
+                <div className="stat-card-value">{dayDetail?.invoiceCount || 0}</div>
+                <div className="stat-card-label">Số Hóa đơn</div>
+              </div>
+            </div>
+
+            <div className="table-scroll" style={{ maxHeight: '400px' }}>
+              <table className="data-table">
+                <thead style={{ position: 'sticky', top: 0, background: 'var(--color-bg-primary)', zIndex: 1 }}>
+                  <tr>
+                    <th>Mã HĐ</th>
+                    <th>Khách hàng</th>
+                    <th>Tổng tiền</th>
+                    <th>Lợi nhuận</th>
+                    <th>Nợ</th>
+                    <th>Giờ tạo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dayDetail?.invoices.map(inv => (
+                    <tr key={inv.id} className="clickable-row" onClick={() => navigate(`/invoices/${inv.id}`)}>
+                      <td style={{ fontWeight: 'var(--font-weight-medium)' }}>{inv.invoiceNumber}</td>
+                      <td>{inv.customerNameSnapshot || t('customers.walkIn')}</td>
+                      <td className="currency">{formatCurrency(inv.totalAmount)}</td>
+                      <td className="currency" style={{ color: 'var(--color-success)' }}>{formatCurrency(inv.profit)}</td>
+                      <td className={`currency ${inv.debtAmount > 0 ? 'currency-negative' : ''}`}>
+                        {inv.debtAmount > 0 ? formatCurrency(inv.debtAmount) : '-'}
+                      </td>
+                      <td style={{ color: 'var(--color-text-secondary)' }}>{new Date(inv.createdAt).toLocaleTimeString('vi-VN')}</td>
+                    </tr>
+                  ))}
+                  {(!dayDetail?.invoices || dayDetail.invoices.length === 0) && (
+                    <tr><td colSpan={6} className="table-empty">Không có hóa đơn nào</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </Modal>
     </div>
   )
 }

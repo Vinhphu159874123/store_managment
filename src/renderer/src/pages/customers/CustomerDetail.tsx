@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ArrowLeft, Edit2, Save, X } from 'lucide-react'
+import { ArrowLeft, Edit2, Save, X, Plus } from 'lucide-react'
 import { formatCurrency, formatDate } from '../../utils/formatters'
 import { useToastStore } from '../../stores/toastStore'
 import Modal from '../../components/ui/Modal'
@@ -98,6 +98,9 @@ export default function CustomerDetail(): JSX.Element {
           </div>
         </div>
         <div className="page-actions">
+          <button className="btn btn-primary" onClick={() => navigate(`/invoices/create?customer=${id}`)}>
+            <Plus size={16} /> Tạo hóa đơn
+          </button>
           <button className="btn btn-secondary" onClick={openEdit}>
             <Edit2 size={16} /> Chỉnh sửa
           </button>
