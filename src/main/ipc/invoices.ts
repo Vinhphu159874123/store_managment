@@ -363,12 +363,18 @@ export function registerInvoiceHandlers(): void {
     const todayStats = queryOne(
       `SELECT 
          COALESCE(SUM(i.total_amount), 0) as todayRevenue, 
+         COALESCE(SUM(i.debt_amount), 0) as todayNewDebt,
          COUNT(i.id) as todayInvoiceCount,
          COALESCE(SUM(i.total_amount - (
            SELECT COALESCE(SUM(ii.quantity * ii.cost_price_snapshot), 0) 
            FROM invoice_items ii WHERE ii.invoice_id = i.id
          )), 0) as todayProfit
        FROM invoices i WHERE date(i.created_at) = ? AND i.status = 'completed'`,
+      [todayStr]
+    )
+
+    const paymentStats = queryOne(
+      `SELECT COALESCE(SUM(amount), 0) as todayCollected FROM payments WHERE date(created_at) = ?`,
       [todayStr]
     )
 
@@ -411,7 +417,9 @@ export function registerInvoiceHandlers(): void {
 
     return {
       todayRevenue: todayStats?.todayRevenue || 0,
+      todayCollected: paymentStats?.todayCollected || 0,
       todayProfit: todayStats?.todayProfit || 0,
+      todayNewDebt: todayStats?.todayNewDebt || 0,
       todayInvoiceCount: todayStats?.todayInvoiceCount || 0,
       totalDebt: debtResult?.totalDebt || 0,
       totalCustomers: customerResult?.totalCustomers || 0,
@@ -437,6 +445,11 @@ export function registerInvoiceHandlers(): void {
       [dateStr]
     )
 
+    const paymentStats = queryOne(
+      `SELECT COALESCE(SUM(amount), 0) as collected FROM payments WHERE date(created_at) = ?`,
+      [dateStr]
+    )
+
     const invoices = queryAll(
       `SELECT 
          i.*,
@@ -456,6 +469,7 @@ export function registerInvoiceHandlers(): void {
 
     return {
       revenue: summary?.revenue || 0,
+      collected: paymentStats?.collected || 0,
       profit: summary?.profit || 0,
       debt: summary?.debt || 0,
       invoiceCount: summary?.invoiceCount || 0,

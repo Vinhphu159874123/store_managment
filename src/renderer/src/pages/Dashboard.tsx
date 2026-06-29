@@ -7,7 +7,9 @@ import Modal from '../components/ui/Modal'
 
 interface DashboardStats {
   todayRevenue: number
+  todayCollected: number
   todayProfit: number
+  todayNewDebt: number
   todayInvoiceCount: number
   totalDebt: number
   totalCustomers: number
@@ -18,6 +20,7 @@ interface DashboardStats {
 
 interface DayDetail {
   revenue: number
+  collected: number
   profit: number
   debt: number
   invoiceCount: number
@@ -94,10 +97,18 @@ export default function Dashboard(): JSX.Element {
             <DollarSign size={20} />
           </div>
           <div className="stat-card-value currency">{formatCurrency(stats?.todayRevenue || 0)}</div>
-          <div className="stat-card-label">{t('dashboard.todayRevenue')}</div>
+          <div className="stat-card-label">Doanh thu hôm nay</div>
         </div>
 
-        <div className="stat-card animate-fade-in-up stagger-1" style={{ '--stat-color': 'var(--color-success)' } as any}>
+        <div className="stat-card animate-fade-in-up stagger-1" style={{ '--stat-color': 'var(--color-primary)' } as any}>
+          <div className="stat-card-icon" style={{ background: 'var(--color-primary-light)', color: 'var(--color-primary)' }}>
+            <DollarSign size={20} />
+          </div>
+          <div className="stat-card-value currency">{formatCurrency(stats?.todayCollected || 0)}</div>
+          <div className="stat-card-label">Tiền đã thu hôm nay</div>
+        </div>
+
+        <div className="stat-card animate-fade-in-up stagger-2" style={{ '--stat-color': 'var(--color-success)' } as any}>
           <div className="stat-card-icon" style={{ background: 'var(--color-success-light)', color: 'var(--color-success)' }}>
             <DollarSign size={20} />
           </div>
@@ -105,28 +116,39 @@ export default function Dashboard(): JSX.Element {
           <div className="stat-card-label">Lợi nhuận hôm nay</div>
         </div>
 
-        <div className="stat-card animate-fade-in-up stagger-2" style={{ '--stat-color': 'var(--color-primary)' } as any}>
-          <div className="stat-card-icon" style={{ background: 'var(--color-primary-light)', color: 'var(--color-primary)' }}>
-            <FileText size={20} />
+        <div className="stat-card animate-fade-in-up stagger-3" style={{ '--stat-color': 'var(--color-warning)' } as any}>
+          <div className="stat-card-icon" style={{ background: 'var(--color-warning-light)', color: 'var(--color-warning)' }}>
+            <AlertTriangle size={20} />
           </div>
-          <div className="stat-card-value">{stats?.todayInvoiceCount || 0}</div>
-          <div className="stat-card-label">{t('dashboard.todayInvoices')}</div>
+          <div className="stat-card-value currency">{formatCurrency(stats?.todayNewDebt || 0)}</div>
+          <div className="stat-card-label">Công nợ mới hôm nay</div>
         </div>
 
-        <div className="stat-card animate-fade-in-up stagger-3" style={{ '--stat-color': 'var(--color-danger)' } as any}>
+        <div className="stat-card animate-fade-in-up stagger-4" style={{ '--stat-color': 'var(--color-danger)' } as any}>
           <div className="stat-card-icon" style={{ background: 'var(--color-danger-light)', color: 'var(--color-danger)' }}>
             <AlertTriangle size={20} />
           </div>
           <div className="stat-card-value currency currency-negative">{formatCurrency(stats?.totalDebt || 0)}</div>
-          <div className="stat-card-label">{t('dashboard.totalDebt')}</div>
+          <div className="stat-card-label">Tổng nợ</div>
+        </div>
+      </div>
+
+      {/* Stat Cards Row 2 (Other) */}
+      <div className="grid grid-2" style={{ marginBottom: 'var(--space-6)' }}>
+        <div className="stat-card animate-fade-in-up stagger-4" style={{ '--stat-color': 'var(--color-primary)' } as any}>
+          <div className="stat-card-icon" style={{ background: 'var(--color-primary-light)', color: 'var(--color-primary)' }}>
+            <FileText size={20} />
+          </div>
+          <div className="stat-card-value">{stats?.todayInvoiceCount || 0}</div>
+          <div className="stat-card-label">Hóa đơn hôm nay</div>
         </div>
 
-        <div className="stat-card animate-fade-in-up stagger-4" style={{ '--stat-color': 'var(--color-info)' } as any}>
+        <div className="stat-card animate-fade-in-up stagger-5" style={{ '--stat-color': 'var(--color-info)' } as any}>
           <div className="stat-card-icon" style={{ background: 'var(--color-info-light)', color: 'var(--color-info)' }}>
             <Users size={20} />
           </div>
           <div className="stat-card-value">{stats?.totalCustomers || 0}</div>
-          <div className="stat-card-label">{t('dashboard.totalCustomers')}</div>
+          <div className="stat-card-label">Tổng khách hàng</div>
         </div>
       </div>
 
@@ -279,10 +301,14 @@ export default function Dashboard(): JSX.Element {
           <div style={{ padding: 'var(--space-4)', textAlign: 'center' }}>Đang tải...</div>
         ) : (
           <>
-            <div className="grid grid-4" style={{ marginBottom: 'var(--space-4)' }}>
+            <div className="grid grid-5" style={{ marginBottom: 'var(--space-4)' }}>
               <div className="stat-card" style={{ '--stat-color': 'var(--color-accent)' } as any}>
                 <div className="stat-card-value currency">{formatCurrency(dayDetail?.revenue || 0)}</div>
                 <div className="stat-card-label">Doanh thu</div>
+              </div>
+              <div className="stat-card" style={{ '--stat-color': 'var(--color-primary)' } as any}>
+                <div className="stat-card-value currency">{formatCurrency(dayDetail?.collected || 0)}</div>
+                <div className="stat-card-label">Tiền đã thu</div>
               </div>
               <div className="stat-card" style={{ '--stat-color': 'var(--color-success)' } as any}>
                 <div className="stat-card-value currency">{formatCurrency(dayDetail?.profit || 0)}</div>
