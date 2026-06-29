@@ -1,137 +1,146 @@
-# 🏪 Quản lý bán hàng - Cửa hàng Thi
+# 🏪 Shop Management System (Hệ thống Quản lý Bán hàng)
 
-Phần mềm desktop quản lý bán hàng, hóa đơn và công nợ cho cửa hàng vật liệu xây dựng / nông sản. Chạy hoàn toàn **offline** trên máy tính, không cần internet.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Electron Version](https://img.shields.io/badge/Electron-v35-47848f.svg)](https://electronjs.org/)
+[![React Version](https://img.shields.io/badge/React-v18-61dafb.svg)](https://react.dev/)
 
----
-
-## ✨ Tính năng
-
-| Module | Chức năng |
-|---|---|
-| **Tổng quan** | Doanh thu hôm nay, số hóa đơn, tổng nợ, biểu đồ 7 ngày, khách nợ nhiều nhất |
-| **Sản phẩm** | Thêm/sửa/xóa sản phẩm, phân loại danh mục, giá bán lẻ / bán sỉ / giá vốn, lịch sử thay đổi giá |
-| **Khách hàng** | Quản lý khách hàng, xem lịch sử mua hàng, lịch sử thanh toán, tổng công nợ |
-| **Hóa đơn** | Tạo hóa đơn nhanh, chọn khách hàng, thêm sản phẩm, tính giảm giá, ghi nhận thanh toán |
-| **Công nợ** | Theo dõi nợ theo từng hóa đơn, ghi nhận thanh toán bổ sung (tiền mặt / chuyển khoản) |
-| **Xuất PDF** | In hóa đơn A5 có đầy đủ thông tin cửa hàng, sản phẩm, tổng tiền, nợ còn lại |
-| **Cài đặt** | Thông tin cửa hàng, ngôn ngữ (VI/EN), sao lưu và phục hồi dữ liệu |
+**Shop Management System** là một phần mềm desktop quản lý bán hàng chuyên nghiệp, được thiết kế đặc biệt dành cho các mô hình kinh doanh bán lẻ, vật liệu xây dựng, nông sản hoặc tạp hóa. Hệ thống hoạt động hoàn toàn **offline**, đảm bảo tính bảo mật và tốc độ truy xuất dữ liệu tối ưu, đồng thời hỗ trợ đồng bộ hóa dữ liệu lên Google Drive để đảm bảo an toàn thông tin.
 
 ---
 
-## 🖥️ Yêu cầu hệ thống
+## 🌟 Các Tính năng Nổi bật
 
-- Windows 10/11 (64-bit)
-- RAM: tối thiểu 512MB
-- Dung lượng: khoảng 150MB
+### 1. Quản lý Tổng quan (Dashboard)
+- Hiển thị trực quan các chỉ số kinh doanh trong ngày: **Doanh thu, Lợi nhuận, Nợ mới, Số lượng hóa đơn**.
+- Biểu đồ thống kê doanh thu và lợi nhuận trong 7 ngày gần nhất.
+- Báo cáo chi tiết từng ngày trong quá khứ (Day Detail Report) tích hợp tra cứu hóa đơn trực tiếp.
+- Thống kê danh sách khách hàng đang có công nợ cao nhất.
+
+### 2. Quản lý Sản phẩm (Inventory Management)
+- Thêm, sửa, xóa thông tin sản phẩm và phân loại theo danh mục.
+- Cấu hình đa dạng mức giá: **Giá bán lẻ**, **Giá bán sỉ** và **Giá vốn** (để tính toán lợi nhuận chính xác).
+- Lưu trữ và tra cứu lịch sử thay đổi giá của từng sản phẩm.
+
+### 3. Quản lý Khách hàng & Công nợ (CRM & Debt Management)
+- Lưu trữ thông tin chi tiết khách hàng (Tên, Số điện thoại, Địa chỉ, Mã số thuế).
+- Theo dõi toàn bộ lịch sử mua hàng và lịch sử thanh toán của từng khách hàng.
+- **Hệ thống công nợ thông minh:** Ghi nhận nợ tự động từ hóa đơn, hỗ trợ trả nợ nhiều lần (tiền mặt/chuyển khoản).
+- Cho phép tạo hóa đơn nhanh trực tiếp từ trang hồ sơ khách hàng.
+
+### 4. Quản lý Hóa đơn (Invoicing)
+- Giao diện bán hàng (POS) trực quan, hỗ trợ tìm kiếm khách hàng và sản phẩm nhanh chóng.
+- Tự động áp dụng giá bán sỉ/bán lẻ theo phân loại khách hàng.
+- Hỗ trợ chiết khấu (theo phần trăm hoặc số tiền trực tiếp).
+- **Xuất PDF & In ấn:** Tạo hóa đơn khổ A5 chuyên nghiệp với đầy đủ thông tin cửa hàng, chi tiết đơn hàng, và dư nợ hiện tại của khách.
+
+### 5. Quản lý Dữ liệu & Lưu trữ Đám mây (Data & Cloud Sync)
+- Dữ liệu được mã hóa và lưu trữ cục bộ qua SQLite, không yêu cầu kết nối Internet khi vận hành.
+- **Google Drive Sync:** Tự động đồng bộ file cơ sở dữ liệu lên Google Drive theo chu kỳ (3 ngày/lần) hoặc sao lưu thủ công bằng một click.
+- Hỗ trợ nhập (Restore) và xuất (Export) cơ sở dữ liệu để chuyển đổi thiết bị dễ dàng.
 
 ---
 
-## 🚀 Cài đặt & Chạy thử (Development)
+## ⚙️ Yêu cầu Hệ thống
 
-### Yêu cầu
+- **Hệ điều hành:** Windows 10/11 (64-bit)
+- **RAM:** Tối thiểu 1GB (Khuyến nghị 2GB)
+- **Dung lượng ổ cứng:** Tối thiểu 200MB không gian trống
+- Không yêu cầu cài đặt thêm các phần mềm cơ sở dữ liệu bên ngoài.
 
-- [Node.js](https://nodejs.org/) v18 trở lên
-- npm v8 trở lên
+---
 
-### Các bước
+## 🚀 Hướng dẫn Cài đặt & Khởi chạy (Dành cho Lập trình viên)
+
+### Yêu cầu môi trường
+- [Node.js](https://nodejs.org/) v18.x hoặc mới hơn.
+- npm v8.x hoặc mới hơn.
+
+### Các bước cài đặt
 
 ```bash
-# 1. Clone hoặc tải về source code
+# 1. Sao chép mã nguồn về máy
+git clone https://github.com/Vinhphu159874123/store_managment.git
 cd Shop_management
 
-# 2. Cài đặt dependencies
+# 2. Cài đặt các thư viện phụ thuộc
 npm install
 
-# 3. Chạy ở chế độ phát triển
+# 3. Khởi chạy ứng dụng ở chế độ phát triển (Development)
 npm run dev
 ```
 
-Ứng dụng Electron sẽ tự mở sau khi build xong (~5–10 giây lần đầu).
+Ứng dụng Electron sẽ tự động biên dịch và mở lên trong khoảng 5-10 giây.
 
 ---
 
-## 📦 Build file cài đặt (.exe)
+## 📦 Hướng dẫn Đóng gói (Build) phần mềm
+
+Để triển khai phần mềm cho người dùng cuối, bạn có thể tạo file cài đặt `.exe`:
 
 ```bash
-# Build file cài đặt Windows
 npm run build:win
 ```
 
-File `.exe` sẽ được tạo trong thư mục `dist/`. Chạy file đó để cài đặt phần mềm như bình thường.
+File cài đặt sẽ được tạo ra tại thư mục `dist/`. Người dùng chỉ cần chạy file `.exe` này để cài đặt phần mềm lên hệ thống Windows như một ứng dụng bình thường.
 
 ---
 
-## 🗂️ Cấu trúc thư mục
+## 🗂️ Cấu trúc Mã nguồn (Project Structure)
 
-```
+Dự án được xây dựng dựa trên kiến trúc của Electron và Vite:
+
+```text
 Shop_management/
+├── scripts/                   # Các kịch bản tiện ích (test, fix data...)
 ├── src/
-│   ├── main/                  # Electron Main Process
-│   │   ├── database/
-│   │   │   └── connection.ts  # SQLite (sql.js), tạo bảng, query helpers
-│   │   └── ipc/               # IPC handlers (products, customers, invoices...)
-│   ├── preload/
-│   │   └── index.ts           # Bridge API giữa Main và Renderer
-│   └── renderer/
-│       └── src/
-│           ├── pages/         # Các trang: Dashboard, Products, Customers, Invoices...
-│           ├── components/    # Layout, UI components, PDF template
-│           ├── stores/        # Zustand state (toast notifications)
-│           ├── utils/         # Format tiền, ngày tháng
-│           └── locales/       # Ngôn ngữ VI / EN
-├── electron.vite.config.ts    # Cấu hình build Electron + Vite
-├── electron-builder.yml       # Cấu hình đóng gói .exe
-└── package.json
+│   ├── main/                  # Tiến trình chính của Electron (Main Process)
+│   │   ├── database/          # Xử lý SQLite, tự động khởi tạo bảng (connection.ts)
+│   │   ├── ipc/               # Lớp trung gian giao tiếp IPC (Customers, Invoices, Google Drive Backup...)
+│   │   └── index.ts           # Điểm neo khởi động ứng dụng
+│   ├── preload/               # Bridge bảo mật kết nối Main và Renderer (Context Isolation)
+│   └── renderer/              # Giao diện người dùng (Renderer Process - React)
+│       ├── src/
+│       │   ├── assets/        # CSS, Fonts, Images
+│       │   ├── components/    # Các UI Components dùng chung (Modal, Layout, PDF Template...)
+│       │   ├── locales/       # File ngôn ngữ (i18n: vi.json, en.json)
+│       │   ├── pages/         # Cấu trúc giao diện các trang (Dashboard, Invoices, Products...)
+│       │   ├── stores/        # Quản lý trạng thái toàn cục (Zustand)
+│       │   └── utils/         # Hàm định dạng dữ liệu (tiền tệ, ngày tháng)
+├── electron-builder.yml       # Cấu hình đóng gói Electron Builder
+├── electron.vite.config.ts    # Cấu hình Vite cho môi trường Electron
+└── package.json               # Quản lý dependencies và scripts
 ```
 
 ---
 
-## 🛠️ Công nghệ sử dụng
+## 🛠️ Ngăn xếp Công nghệ (Tech Stack)
 
-| Thành phần | Công nghệ |
+| Hạng mục | Công nghệ sử dụng |
 |---|---|
-| Desktop framework | [Electron](https://electronjs.org/) v35 |
-| UI framework | [React](https://react.dev/) v18 + TypeScript |
-| Build tool | [electron-vite](https://electron-vite.org/) + Vite v6 |
-| Database | [sql.js](https://sql.js.org/) (SQLite chạy trong Node, không cần cài thêm) |
-| Routing | React Router v7 |
-| Icons | [Lucide React](https://lucide.dev/) |
-| PDF | [@react-pdf/renderer](https://react-pdf.org/) |
-| i18n | react-i18next (Tiếng Việt / English) |
-| State | Zustand |
-| Styling | Vanilla CSS (Light theme) |
+| **Core Framework** | [Electron](https://electronjs.org/) v35 |
+| **Giao diện (UI)** | [React](https://react.dev/) v18, TypeScript, Vanilla CSS |
+| **Công cụ Build** | [electron-vite](https://electron-vite.org/), Vite v6 |
+| **Cơ sở dữ liệu** | [sql.js](https://sql.js.org/) (SQLite Runtime In-memory/File buffer) |
+| **Quản lý State** | Zustand |
+| **Đa ngôn ngữ** | react-i18next |
+| **Hệ thống Routing**| React Router v7 |
+| **Biểu tượng (Icon)** | Lucide React |
+| **Kết xuất PDF** | @react-pdf/renderer |
 
 ---
 
-## 💾 Dữ liệu được lưu ở đâu?
+## 💾 Lưu trữ Dữ liệu & Bảo mật
 
-Dữ liệu lưu trong file SQLite tại:
+1. **Lưu trữ Cục bộ:** 
+   Toàn bộ cơ sở dữ liệu được lưu dưới định dạng file SQLite tại đường dẫn an toàn của hệ điều hành:
+   `C:\Users\<Tên_Người_Dùng>\AppData\Roaming\shop-management\shop-management.db`
 
-```
-C:\Users\<Tên máy>\AppData\Roaming\shop-management\shop-management.db
-```
-
----
-
-## 🔒 Sao lưu & Phục hồi
-
-Vào **Cài đặt → Sao lưu dữ liệu**:
-
-- **Tạo bản sao lưu**: copy file `.db` vào thư mục `backups/` với timestamp
-- **Phục hồi**: chọn file `.db` đã sao lưu để khôi phục
-
-> ⚠️ Sau khi phục hồi, khởi động lại ứng dụng để áp dụng.
+2. **Cơ chế Sao lưu (Backup):**
+   Người dùng có thể chủ động cấu hình sao lưu trong thẻ **Cài đặt**. Dữ liệu có thể được sao lưu trực tiếp vào thư mục an toàn của ứng dụng hoặc đồng bộ lên hệ thống **Google Drive**.
 
 ---
 
-## 📄 Format hóa đơn
+## 📄 Giấy phép (License)
 
-Số hóa đơn theo định dạng: `HD-YYYYMMDD-XXXX`
-
-Ví dụ: `HD-20260626-0001`
-
----
-
-## 📝 License
-
-MIT — Sử dụng tự do cho mục đích cá nhân và thương mại.
+Dự án được phân phối dưới giấy phép [MIT License](https://opensource.org/licenses/MIT). 
+Bạn hoàn toàn có quyền sử dụng, sao chép, sửa đổi, hợp nhất, xuất bản, phân phối, cấp phép lại và bán các bản sao của phần mềm này.
