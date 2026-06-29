@@ -1,0 +1,10 @@
+node_modules/
+out/
+dist/
+.DS_Store
+
+# Database files (lưu local, không commit)
+data/
+*.db
+*.db-shm
+*.db-wal

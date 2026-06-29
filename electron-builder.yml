@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "com.thi.shop-management",
+  "productName": "Shop Management - Thi",
+  "directories": {
+    "buildResources": "build"
+  },
+  "files": [
+    "out/**/*",
+    "!node_modules/**/*"
+  ],
+  "extraResources": [
+    {
+      "from": "src/main/database/migrations",
+      "to": "migrations"
+    }
+  ],
+  "win": {
+    "target": ["nsis"],
+    "icon": "build/icon.ico"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowToChangeInstallationDirectory": true,
+    "language": "1066"
+  }
+}

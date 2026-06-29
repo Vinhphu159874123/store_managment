@@ -1,0 +1,50 @@
+{
+  "name": "shop-management",
+  "version": "1.0.0",
+  "description": "Desktop Sales & Invoice Management System",
+  "main": "./out/main/index.js",
+  "author": "Thi Store",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push"
+  },
+  "dependencies": {
+    "@fontsource/roboto": "^5.2.10",
+    "@react-pdf/renderer": "^4.3.0",
+    "date-fns": "^4.1.0",
+    "drizzle-orm": "^0.44.2",
+    "i18next": "^25.1.3",
+    "lucide-react": "^0.511.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.5.2",
+    "react-router-dom": "^7.6.2",
+    "sql.js": "^1.12.0",
+    "uuid": "^11.1.0",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@electron-toolkit/eslint-config-ts": "^2.0.0",
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@electron-toolkit/utils": "^3.0.0",
+    "@types/node": "^22.15.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "drizzle-kit": "^0.31.1",
+    "electron": "^35.1.5",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.1.0",
+    "eslint": "^9.22.0",
+    "typescript": "^5.8.2",
+    "vite": "^6.3.5"
+  }
+}
